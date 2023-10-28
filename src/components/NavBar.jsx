@@ -8,7 +8,7 @@ const NavBar = () => {
     <div>
       <Flex alignItems="center" justifyContent="space-between" bg="pink.500" p="2" boxShadow="lg">
         <Box p="2">
-          <h3 style={{ color: 'white', fontSize: '1.5rem' }}>Brand</h3>
+          <h3 style={{ color: 'white', fontSize: '1.5rem' }}>Lado V</h3>
         </Box>
 
         <Menu>
