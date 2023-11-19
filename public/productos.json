@@ -1,0 +1,54 @@
+{
+    "productos": [
+      {
+        "id": 1,
+        "nombre": "Llaveros",
+        "precio": 1500,
+        "cantidad": 20,
+        "categoria": "Llaveros-y-stickers",
+        "imagen": "/img/llaveros.jpg"
+      },
+      {
+        "id": 2,
+        "nombre": "Stickers",
+        "precio": 500,
+        "cantidad": 25,
+        "categoria": "Llaveros-y-stickers",
+        "imagen": "/img/stickers.jpg"
+      },
+      {
+        "id": 3,
+        "nombre": "Buzos",
+        "precio": 17000,
+        "cantidad": 4,
+        "categoria": "Buzos",
+        "imagen": "/img/buzos.jpg"
+      },
+      {
+        "id": 4,
+        "nombre": "Remeras",
+        "precio": 10000,
+        "cantidad": 5,
+        "categoria": "Remeras",
+        "imagen": "/img/remeras.jpg"
+      },
+      {
+        "id": 5,
+        "nombre": "Medias",
+        "precio": 2000,
+        "cantidad": 11,
+        "categoria": "Medias",
+        "imagen": "/img/medias.jpg"
+      },
+      {
+        "id": 6,
+        "nombre": "Gorros",
+        "precio": 3500,
+        "cantidad": 15,
+        "categoria": "Gorros",
+        "imagen": "/img/gorros.jpg"
+      }
+      
+    ]
+  }
+  
