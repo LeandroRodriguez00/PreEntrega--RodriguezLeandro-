@@ -31,8 +31,8 @@ const NavBar = () => {
             <Link to="/productos/buzos">
               <MenuItem>Buzos</MenuItem>
             </Link>
-            <Link to="/productos/Llaveros-y-stickers">
-              <MenuItem>Llaveros y Stickers</MenuItem>
+            <Link to="/productos/llaveros-y-stickers">
+              <MenuItem>Llaveros-y-Stickers</MenuItem>
             </Link>
           </MenuList>
         </Menu>

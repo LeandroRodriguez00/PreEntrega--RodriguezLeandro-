@@ -1,7 +1,9 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Text, Spinner } from '@chakra-ui/react';
 import ItemCount from './ItemCount';
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 
 const ProductDetail = () => {
   const { categoria } = useParams();
@@ -11,17 +13,40 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const fetchProductosPorCategoria = async () => {
-      try {
-       
-        const response = await fetch('/productos.json');  
-        const data = await response.json();
+      const db = getFirestore();
+      const categoriaLower = categoria.toLowerCase();
 
-      
-        const productosFiltrados = data.productos.filter(producto => producto.categoria.toLowerCase() === categoria.toLowerCase());
+      try {
+        const merchandisingCollection = collection(db, 'Merchandising');
+        const categoriasQuery = query(
+          merchandisingCollection,
+          where('categoria', '==', categoriaLower)
+        );
+
+        const querySnapshot = await getDocs(categoriasQuery);
+
+        if (querySnapshot.empty) {
+          console.log('No hay productos en esta categoría.');
+          setLoading(false);
+          return;
+        }
+
+        const productosFiltrados = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: data.id || data['id '],
+            nombre: data.nombre,
+            precio: data.precio,
+            cantidad: data.cantidad,
+            categoria: data.categoria || data['categoria '],
+            imagen: data['imagen '] || data['imagen'],
+          };
+        });
 
         setProductos(productosFiltrados);
         setLoading(false);
       } catch (error) {
+        console.error('Error al obtener productos:', error);
         setError(error.message || 'Error al obtener productos');
         setLoading(false);
       }
@@ -29,6 +54,11 @@ const ProductDetail = () => {
 
     fetchProductosPorCategoria();
   }, [categoria]);
+
+  const handleAddToCart = ({ id, nombre, precio, cantidadDisponible, quantity }) => {
+    
+    console.log(`Agregado al carrito: ${quantity} unidades de ${nombre}`);
+  };
 
   return (
     <>
@@ -65,8 +95,13 @@ const ProductDetail = () => {
                   </Text>
                   <img src={producto.imagen} alt={producto.nombre} style={{ maxWidth: '100%' }} />
 
-                 
-                  <ItemCount/>
+                  <ItemCount
+                    id={producto.id}
+                    nombre={producto.nombre}
+                    precio={producto.precio}
+                    cantidadDisponible={producto.cantidad}
+                    onAddToCart={handleAddToCart}
+                  />
                 </Box>
               ))}
             </div>

@@ -1,22 +1,40 @@
 import { useState } from 'react';
 import { Button, Badge, Box, useToast } from '@chakra-ui/react';
 
-const ItemCount = () => {
+const ItemCount = ({ id, nombre, precio, cantidadDisponible, onAddToCart }) => {
   const toast = useToast();
-  const [count, setCount] = useState(0);
+
+  
+  const [quantities, setQuantities] = useState({ [id]: 0 });
 
   const addToCart = () => {
+    const count = quantities[id] || 0;
+    
     if (count > 0) {
+      
+      if (onAddToCart) {
+        onAddToCart({
+          id,
+          nombre,
+          precio,
+          cantidadDisponible,
+          quantity: count,
+        });
+      }
+
       toast({
         title: 'Felicitaciones',
         description: `Haz agregado ${count} ${
           count === 1 ? 'unidad' : 'unidades'
-        } a tu carrito`,
+        } de ${nombre} a tu carrito`,
         status: 'success',
         duration: 9000,
         isClosable: true,
         colorScheme: 'pink',
       });
+
+      
+      setQuantities({ ...quantities, [id]: 0 });
     } else {
       toast({
         title: 'Error',
@@ -30,8 +48,10 @@ const ItemCount = () => {
   };
 
   const incrementCount = () => {
-    if (count < 10) {
-      setCount(count + 1);
+    const count = (quantities[id] || 0) + 1;
+    
+    if (count <= 10) {
+      setQuantities({ ...quantities, [id]: count });
     } else {
       toast({
         title: 'Error',
@@ -45,8 +65,10 @@ const ItemCount = () => {
   };
 
   const decrementCount = () => {
-    if (count > 0) {
-      setCount(count - 1);
+    const count = (quantities[id] || 0) - 1;
+    
+    if (count >= 0) {
+      setQuantities({ ...quantities, [id]: count });
     } else {
       toast({
         title: 'Error',
@@ -65,7 +87,7 @@ const ItemCount = () => {
         -
       </Button>
       <Badge colorScheme="pink" fontSize="xl" mx="2">
-        {count}
+        {quantities[id] !== undefined ? quantities[id] : 0} {}
       </Badge>
       <Button colorScheme="pink" variant="outline" onClick={incrementCount}>
         +

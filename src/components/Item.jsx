@@ -1,5 +1,5 @@
-// Item.jsx
-import React from 'react';
+
+import React, {useContext} from 'react';
 import { Box, Image, Heading, Text, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -32,7 +32,6 @@ const Item = ({ producto }) => {
         <Text fontSize="md" mt="2">
           Precio: ${producto.precio.toFixed(2)}
         </Text>
-       
         <Link to={`/producto/${producto.id}`}>
           <Button colorScheme="pink" mt="2">
             Ver Detalle

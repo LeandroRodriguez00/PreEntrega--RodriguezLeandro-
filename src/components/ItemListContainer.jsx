@@ -1,30 +1,24 @@
-// ItemListContainer.jsx
 import React, { useState, useEffect } from 'react';
 import { Box, Heading, Spinner } from '@chakra-ui/react';
 import Item from './Item';
+import { collection, getDocs, getFirestore } from 'firebase/firestore';
 
 const ItemListContainer = () => {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
+      const db = getFirestore();
+
       try {
-        const response = await fetch('./public/productos.json');
-
-        if (!response.ok) {
-          throw new Error('No se pudo cargar el archivo JSON.');
-        }
-
-        const data = await response.json();
-
-        if (Array.isArray(data.productos)) {
-          setProductos(data.productos);
-        } else {
-          throw new Error('Los datos cargados no contienen un array de productos.');
-        }
+        const querySnapshot = await getDocs(collection(db, 'Merchandising'));
+        const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setProductos(data);
       } catch (error) {
-        console.error('Error al cargar productos:', error);
+        console.error('Error al cargar productos desde Firebase:', error);
+        setError(error.message || 'Error al cargar productos desde Firebase');
       } finally {
         setLoading(false);
       }
@@ -34,8 +28,8 @@ const ItemListContainer = () => {
   }, []);
 
   const handleVerDetalle = (producto) => {
-    // Puedes agregar lógica adicional aquí si es necesario.
     console.log('Ver detalle de producto:', producto);
+    
   };
 
   return (
@@ -45,6 +39,8 @@ const ItemListContainer = () => {
       </Heading>
       {loading ? (
         <Spinner size="xl" color="pink.500" />
+      ) : error ? (
+        <Box color="red.500">{error}</Box>
       ) : (
         <Box display="flex" flexWrap="wrap">
           {productos.map((producto) => (

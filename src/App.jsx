@@ -5,15 +5,17 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cart from './components/Cart';
 import ProductDetail from './components/ProductDetail';
 import ItemDetailContainer from './components/ItemDetailContainer';
+import {CartProvider} from './Contexts/Cartcontext';
+
 
 const App = () => {
   return (
-    <div>
+    
       
       <BrowserRouter>
+       
+        <CartProvider >
         <NavBar />
-        
-
         <Routes>
           
           <Route exact path='/' element={<ItemListContainer greeting="Bienvenidos a Lado V- Store" />} />
@@ -21,9 +23,10 @@ const App = () => {
           <Route exact path='/producto/:id' element={<ItemDetailContainer />} />
           <Route exact path='/productos/:categoria' element={<ProductDetail />} />
         </Routes>
-      </BrowserRouter>
-    </div>
-  );
+      
+      </CartProvider>
+    </BrowserRouter>
+  ); 
 };
 
 export default App;
