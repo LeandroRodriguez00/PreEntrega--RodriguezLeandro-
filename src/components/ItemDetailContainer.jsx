@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Box, Heading, Text, Image, Spinner } from '@chakra-ui/react';
 import ItemCount from './ItemCount';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import { useCart } from '../Contexts/Cartcontext'; 
+import { useCart } from '../contexts/CartContext';
+
 
 function ItemDetailContainer() {
   const { id } = useParams();
